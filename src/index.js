@@ -96,11 +96,13 @@ class Game extends React.Component {
       let row = (Math.floor(step.selection / 3) + 1);
       let col = (4 - ((3 * row) - step.selection)) + 0;
       const desc = move ?
-        'Go to move #' + move + ' (' + row + ', ' + col + ')' :
+        'Go to move #' + move + ' (' + row + ', ' + col + ')':
         'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => this.jumpTo(move)}
+          className={ move === this.state.stepNumber ? 'current' : ''}
+          >{desc}  {this.state.stepNumber}</button>
         </li>
       );
     });

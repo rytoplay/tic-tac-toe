@@ -32,6 +32,10 @@ body {
     width: 34px;
   }
   
+  .current {
+    font-weight: bold;
+  }
+  
   .square:focus {
     outline: none;
   }
