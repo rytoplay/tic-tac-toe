@@ -24,12 +24,12 @@ class Board extends React.Component {
     let result= [];
       result.push(
         new Array(3).fill().map( (el, i) => {
-          return <div className="board-row"> {
+          return (<div className="board-row"> {
             new Array(3).fill().map( (e, j) => {
               return (this.renderSquare((i*3) + j))
             })
           }
-          </div>
+          </div>)
         })
       )
     return (result);
@@ -47,7 +47,9 @@ class Game extends React.Component {
         }
       ],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      reverseMoves: 0,
+
     };
   }
 
@@ -56,6 +58,7 @@ class Game extends React.Component {
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     // const moves = current.moves;
+
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -94,7 +97,7 @@ class Game extends React.Component {
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}
           className={ move === this.state.stepNumber ? 'current' : ''}
-          >{desc}  {this.state.stepNumber}</button>
+          >{desc}</button>
         </li>
       );
     });
@@ -116,10 +119,24 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ol>{
+            (this.state.reverseMoves) ?
+            moves.reverse() : moves
+          }</ol>
+          <br />
+          <button className="reverseMovesButton" onClick={() => this.reverseMoveList()}>
+            Reverse Move List
+          </button>
         </div>
       </div>
     );
+  }
+
+  reverseMoveList() {
+    console.log('this.state.reverseMoves', this.state.reverseMoves);
+    this.setState({
+      reverseMoves: (this.state.reverseMoves) ? 0 : 1
+    })
   }
 }
 
