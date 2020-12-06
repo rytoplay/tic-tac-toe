@@ -21,25 +21,18 @@ class Board extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
+    let result= [];
+      result.push(
+        new Array(3).fill().map( (el, i) => {
+          return <div className="board-row"> {
+            new Array(3).fill().map( (e, j) => {
+              return (this.renderSquare((i*3) + j))
+            })
+          }
+          </div>
+        })
+      )
+    return (result);
   }
 }
 
@@ -62,7 +55,7 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    const moves = current.moves;
+    // const moves = current.moves;
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -92,7 +85,6 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      console.log('step', step);
       let row = (Math.floor(step.selection / 3) + 1);
       let col = (4 - ((3 * row) - step.selection)) + 0;
       const desc = move ?
